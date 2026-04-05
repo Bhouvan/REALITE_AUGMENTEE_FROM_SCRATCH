@@ -43,7 +43,7 @@ int main() {
     float eps = measureEpsilon();
     std::cout<<"Epsilon par boucle donne: "<<eps<<"\n";
     std::cout<<"std::numeric_limits<float>::epsilon(): donne "<<std::numeric_limits<float>::epsilon()<<"\n";
-    //delete[] Tabcopie;
+
 
 
 return 0; 
