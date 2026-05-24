@@ -28,13 +28,13 @@ void inspectFloat(float f) {
     printf("  Mantisse: %06X (1.%06X en hex)\n", mantissa, mantissa); 
 
 } 
-float kahanSum(const float* data, int n){
-    float sum = 0.0f;
-    float comp = 0.0f;
+double kahanSum(const double* data, int n){
+    double sum = 0.0;
+    double comp = 0.0;
     
     for(int i = 0;i<n;i++){
-        float y = data[i] - comp;
-        float t = sum + y;
+        double y = data[i] - comp;
+        double t = sum + y;
         comp = (t-sum)-y;
         sum = t;
     }
@@ -42,17 +42,17 @@ float kahanSum(const float* data, int n){
 
 }
 
-float sommeNaive(const float* data, int n){
+double sommeNaive(const double* data, int n){
     
-   return std::accumulate(data, data + n, 0.0f);
+   return std::accumulate(data, data + n, 0.0);
 }
 
-void RemplirTab(float* data,int n){
+void RemplirTab(double* data,int n){
     
     
     for(int i= 0;i<n;i++)
     {
-    data[i]=0.1f;
+    data[i]=0.1;
      
     }
 
@@ -61,7 +61,7 @@ void RemplirTab(float* data,int n){
 int main() {
     const int n = 1000000;
     float sum1, sum2;
-    float* Tabcopie = new float[n]; 
+    double* Tabcopie = new double[n]; 
     RemplirTab(Tabcopie,n);
     sum1 = sommeNaive(Tabcopie,n);
     sum2 = kahanSum(Tabcopie,n);

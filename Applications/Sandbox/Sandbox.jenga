@@ -62,17 +62,20 @@ def configure_sandbox_app(project_name: str, source_file: str, app_id_suffix: st
             "%{NKStream.location}/src",
             "%{NKMemory.location}/src",
             "%{NKContainers.location}/src",
+            
         ])
 
         links([
             "NKWindow", "NKRenderer", "NKLogger",
             "NKMath", "NKTime", "NKStream",
-            "NKContainers", "NKMemory", "NKCore", "NKPlatform"
+            "NKContainers", "NKMemory", "NKCore", "NKPlatform",
+          
         ])
         dependson([
             "NKWindow", "NKRenderer", "NKLogger",
             "NKMath", "NKTime", "NKStream",
-            "NKContainers", "NKMemory", "NKCore", "NKPlatform"
+            "NKContainers", "NKMemory", "NKCore", "NKPlatform",
+           
         ])
 
         objdir("%{wks.location}/Build/Obj/%{cfg.buildcfg}-%{cfg.system}/%{prj.name}")
