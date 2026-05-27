@@ -2,8 +2,8 @@
  
 
 
- namespace nkentseu {
-    namespace math {
+ namespace NkMath {
+    
         // Sommation de Kahan — O(N) comme std::accumulate mais BEAUCOUP plus précis 
         double kahanSum(const double* data, int n) { 
             double sum  = 0.0; 
@@ -26,5 +26,4 @@
             for(int i= 0;i<n;i++)
                 data[i]=value;           
         }
-    } // namespace math
- } // namespace nkensteu
+    } // namespace NKMath

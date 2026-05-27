@@ -5,8 +5,8 @@
 
 
  
-namespace nkentseu {
-    namespace math {
+namespace NkMath {
+  
 // Constantes 
 constexpr double kEps  = 1e-9;            // epsilon double pour tests 
 constexpr float  kFEps = 1e-6f;           // epsilon float pour tests 
@@ -33,6 +33,6 @@ double sommeNaive(const double* data, int n);
 void RemplirTab(double* data,int n, double);
 
 }
-}
+
     
      // namespace NkMath 

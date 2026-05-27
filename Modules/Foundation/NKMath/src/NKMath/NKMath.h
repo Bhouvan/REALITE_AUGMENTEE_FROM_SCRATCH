@@ -9,6 +9,9 @@
 #define NKENTSEU_NKMATH_H_INCLUDED
 
 #include "NkFunctions.h"
+#include "Float.h"
+#include "Vec2d.h"
+#include "Vec3d.h"
 #include "NkSIMD.h"
 #include "NkTypes.h"
 

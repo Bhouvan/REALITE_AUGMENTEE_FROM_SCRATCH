@@ -47,14 +47,7 @@ double sommeNaive(const double* data, int n){
    return std::accumulate(data, data + n, 0.0);
 }
 
-void RemplirTab(double* data,int n){
-    
-    
-    for(int i= 0;i<n;i++)
-    {
-    data[i]=0.1;
-     
-    }
+c
 
 }
  

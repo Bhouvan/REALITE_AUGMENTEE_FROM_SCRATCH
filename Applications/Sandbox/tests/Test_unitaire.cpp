@@ -1,11 +1,10 @@
 #include <Unitest/Unitest.h>
 #include <Unitest/TestMacro.h>
 
-#include "NKMath/Float.h"
+#include "NKMath/NKMath.h"
 
-using namespace nkentseu;
-using namespace nkentseu::math;
 
+using namespace NkMath;
 
 TEST_CASE(NKMathisFloat, isFiniteValidFunctions) {
     ASSERT_FALSE(isFiniteValid(sqrt(-1)));
