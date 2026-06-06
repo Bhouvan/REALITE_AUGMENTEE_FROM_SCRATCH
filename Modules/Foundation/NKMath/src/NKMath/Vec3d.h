@@ -96,9 +96,7 @@ inline OrthoBasis GramSchmidt(Vec3d a, Vec3d b, Vec3d c) {
     assert(!nearlyZero(u.Norm()) && "First vector is zero"); 
  
     // Étape 2 : ôter la composante u de b → v 
-    Vec3d v_temp = (b - Project(b, u));
-    v_temp.Print();
-    Vec3d v = v_temp.Normalized(); 
+    Vec3d v = (b - Project(b, u)).Normalized(); 
     assert(!nearlyZero(v.Norm()) && "Vectors are collinear"); 
  
     // Étape 3 : ôter les composantes u et v de c → w 

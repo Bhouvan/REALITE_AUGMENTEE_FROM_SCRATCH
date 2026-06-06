@@ -1,3 +1,4 @@
+#pragma once
 #include "Vec3d.h"
 #include "Vec2d.h"
 

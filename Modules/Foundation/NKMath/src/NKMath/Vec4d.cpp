@@ -1,3 +1,5 @@
+#pragma once
+
 #include"Vec4d.h"
 using namespace NkMath;
 
@@ -15,7 +17,7 @@ using namespace NkMath;
     } 
     double& Vec4d::operator[](int i) { assert(i<4); return (&x)[i]; } 
 
-        // Garantie de layout mémoire pour glVertexAttribPointer 
+    // Garantie de layout mémoire pour glVertexAttribPointer 
     static_assert(sizeof(Vec3d) == 24, "Vec2d must be 16 bytes (3 doubles)"); 
   
 
