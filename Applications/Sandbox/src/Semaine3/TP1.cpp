@@ -23,7 +23,7 @@ void fillpixels(uint32_t* pixels, int width, int height) {
         pixels[i] = r << 24 | g << 16 | b << 8;
     }
 }
-void drawline(Vec2d P0,Vec2d P1, uint32_t color, std::ofstream& Image, uint32_t* pixels, int width, int height) 
+void drawline(Vec2d P0,Vec2d P1, uint32_t color, uint32_t* pixels, int width, int height) 
 {
     
         
@@ -47,7 +47,7 @@ void drawline(Vec2d P0,Vec2d P1, uint32_t color, std::ofstream& Image, uint32_t*
     int ystep = (P0.y < P1.y) ? 1 : -1;
     int y = static_cast<int>(P0.y);
 
-    std::vector<Vec2d> points;
+    
     for (int x = static_cast<int>(P0.x); x <= static_cast<int>(P1.x); x++) {
         
             // Set pixel at (y, x) to color
@@ -57,35 +57,8 @@ void drawline(Vec2d P0,Vec2d P1, uint32_t color, std::ofstream& Image, uint32_t*
             if (error < 0) {
             y += ystep;
             error += dx;
-            }
-        
-    }
-    
-        
-        Image.open("NKImage.ppm");
-        if (!Image.is_open()) {
-            std::cerr << "Error: Could not open file for writing." << std::endl;
-            return ;
-         }
-         Image << "P3\n";
-         Image    << width << " " << height << "\n";
-         Image << "255\n";
-         int k=0;
-        for (int i = 0; i < numPixels; i++){
-           
-            uint32_t pixel = pixels[i];
-
-            uint8_t r = (pixel >> 24) & 255;
-            uint8_t g = (pixel >> 16) & 0xFF; 
-            uint8_t b = (pixel >> 8) & 0xFF;
-            if(i % width == 0 && i != 0){
-                Image << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " " << std::endl;
-                continue;
-            }
-            Image << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " " ;
-        }
-        Image.close();   
-        std::cout << "Image file created successfully." << std::endl;
+            }  
+    }       
 }
 
 Vec4d cube[8] =
@@ -103,7 +76,7 @@ Vec4d cube[8] =
 
 int main(int argc, char** argv){
     std::vector<Vec2d> Pos2D;
-    std::ofstream Image("NKImage.ppm");
+    
     int width = 512;
     int height = 512;
     double angleX = 25.0; 
@@ -112,34 +85,60 @@ int main(int argc, char** argv){
     uint32_t* pixels = new uint32_t[width * height];
     fillpixels(pixels, width, height);
     for(int i=0; i<8; i++)
-{
+    {
     // Rote si tu veux
-   /* cube[i].y = cube[i].y*std::cos(radians(angleX)) - cube[i].z*std::sin(radians(angleX));
-   cube[i].z = cube[i].y*std::sin(radians(angleX)) + cube[i].z*std::cos(radians(angleX));
-   
-   cube[i].x = cube[i].x*std::cos(radians(angleY)) + cube[i].z*std::sin(radians(angleY));  
-   cube[i].z = -cube[i].x*std::sin(radians(angleY)) + cube[i].z*std::cos(radians(angleY)); */
+    /* cube[i].y = cube[i].y*std::cos(radians(angleX)) - cube[i].z*std::sin(radians(angleX));
+    cube[i].z = cube[i].y*std::sin(radians(angleX)) + cube[i].z*std::cos(radians(angleX));
+    
+    cube[i].x = cube[i].x*std::cos(radians(angleY)) + cube[i].z*std::sin(radians(angleY));  
+    cube[i].z = -cube[i].x*std::sin(radians(angleY)) + cube[i].z*std::cos(radians(angleY)); */
 
-   cube[i].z += 2.0;
+    cube[i].z += 2.0;
     double f = 500.0 / cube[i].z; 
     double x2d = cube[i].x * f + 256;
     double y2d = cube[i].y * f + 256;
     Pos2D.push_back(Vec2d(x2d, y2d));
-    
-}
-for(int i=0; i<4; i++){
-drawline(Vec2d(Pos2D[i].x, Pos2D[i].y), Vec2d(Pos2D[(i+1)%4].x, Pos2D[(i+1)%4].y), 0xFF0000FF, Image, pixels, width, height); 
-if(i==3){
-    drawline(Vec2d(Pos2D[i+4].x, Pos2D[i+4].y), Vec2d(Pos2D[(i+5)%8 + 4].x, Pos2D[(i+5)%8 + 4].y), 0xFF0000FF, Image, pixels, width, height); 
-}else{
-    drawline(Vec2d(Pos2D[i+4].x, Pos2D[i+4].y), Vec2d(Pos2D[(i+5)%8].x, Pos2D[(i+5)%8].y), 0xFF0000FF, Image, pixels, width, height); 
-}
-drawline(Vec2d(Pos2D[i].x, Pos2D[i].y), Vec2d(Pos2D[i+4].x, Pos2D[i+4].y), 0xFF0000FF, Image, pixels, width, height); 
+    }
 
-}
-delete[] pixels;
-    
-    
+    for(int i=0; i<4; i++){
+        drawline(Vec2d(Pos2D[i].x, Pos2D[i].y), Vec2d(Pos2D[(i+1)%4].x,
+         Pos2D[(i+1)%4].y), 0xFF0000FF, pixels, width, height); 
 
+        drawline(Vec2d(Pos2D[i+4].x, Pos2D[i+4].y), Vec2d(Pos2D[(i+1)%4+4].x,
+         Pos2D[(i+1)%4 + 4].y), 0xFF0000FF, pixels, width, height); 
+
+        drawline(Vec2d(Pos2D[i].x, Pos2D[i].y), Vec2d(Pos2D[i+4].x,
+             Pos2D[i+4].y), 0xFF0000FF, pixels, width, height); 
+    }
+
+    std::ofstream Image("D:/Nkentseu/Applications/Sandbox/src/image/NKImage.ppm");
+    
+    if (!Image.is_open()) {
+            std::cerr << "Error: Could not open file for writing." << std::endl;
+            return -1;
+        }
+
+    Image << "P3\n";
+    Image << width << " " << height << "\n";
+    Image << "255\n";
+
+    for (int i = 0; i < width * height ; i++){
+            
+        uint32_t pixel = pixels[i];
+
+        uint8_t r = (pixel >> 24) & 255;
+        uint8_t g = (pixel >> 16) & 0xFF; 
+        uint8_t b = (pixel >> 8) & 0xFF;
+        if(i % width == 0 && i != 0){
+            Image << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " " << std::endl;
+            //std::cout << "ok" << std::endl;
+            continue;
+        }
+        Image << static_cast<int>(r) << " " << static_cast<int>(g) << " " << static_cast<int>(b) << " " ;
+    }
+
+    Image.close();   
+    std::cout << "Image file created successfully." << std::endl;
+    delete[] pixels;
     return 0;
 }

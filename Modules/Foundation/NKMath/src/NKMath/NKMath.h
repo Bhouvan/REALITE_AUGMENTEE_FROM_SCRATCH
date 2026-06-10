@@ -14,6 +14,7 @@
 #include "Vec3d.h"
 #include "Vec4d.h"
 #include "Mat4d.h"
+#include "Quaternion.h"
 #include "NkSIMD.h"
 #include "NkTypes.h"
 

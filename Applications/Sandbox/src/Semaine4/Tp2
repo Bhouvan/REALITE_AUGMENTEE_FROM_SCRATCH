@@ -1,0 +1,2 @@
+Slerp est un blending qui qui se fait a vitesse constante avec une transition douce tandis que 
+Lerp fait un blending moins smooth et acceleration differente de 0.

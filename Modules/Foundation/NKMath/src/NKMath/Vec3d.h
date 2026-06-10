@@ -56,7 +56,7 @@ inline Vec3d Cross(const Vec3d& a, const Vec3d& b) {
 } 
 inline bool Compare(const Vec3d& a, const Vec3d& b)
 {
-    return (a.x==b.x && a.y==b.y && a.z==b.z)?true:false;
+    return (approxEq(a.x,b.x) && approxEq(a.y,b.y) && approxEq(a.z,b.z))?true:false;
 }
 
 // Projection de a sur b : composante de a dans la direction de b 

@@ -1,10 +1,10 @@
 #include <iostream>
-
+#include <filesystem> 
 #include <fstream>
 #include <ostream>
 #include <cstdint>
-#include <filesystem>
 #include <vector>
+#include <chrono>
 #include "NKMath/NKMath.h"
 using namespace NkMath;
 const double M_PI = 3.14159265358979323846;
@@ -48,7 +48,7 @@ void drawline(Vec2d P0,Vec2d P1, uint32_t color, uint32_t* pixels, int width, in
     int ystep = (P0.y < P1.y) ? 1 : -1;
     int y = static_cast<int>(P0.y);
 
-    
+    std::vector<Vec2d> points;
     for (int x = static_cast<int>(P0.x); x <= static_cast<int>(P1.x); x++) {
         
             // Set pixel at (y, x) to color
@@ -58,8 +58,12 @@ void drawline(Vec2d P0,Vec2d P1, uint32_t color, uint32_t* pixels, int width, in
             if (error < 0) {
             y += ystep;
             error += dx;
-            }  
-    }       
+            }
+        
+    }
+    
+
+        
 }
 
 Vec4d cube[8] =
@@ -76,7 +80,7 @@ Vec4d cube[8] =
 };
 
 int main(int argc, char** argv){
-     std::vector<Vec2d> Pos2D;
+        std::vector<Vec2d> Pos2D;
         Vec4d cubeCamera[8];
         int width = 512;
         int height = 512;
@@ -92,32 +96,17 @@ int main(int argc, char** argv){
         //drawing the cube
         double fov = 60.0 * M_PI/180;
         double f = (width/2)/std::tan(fov/2); 
-        double angle1 = radians(0.0);
-        double angle2 = radians(70.0);
-        Vec3d axis = {0.5, 1, 0}; 
-        Vec3d axis1 = {0, -1, 1};
-        Quat q1 = { cos(angle1/2), sin(angle1/2)*axis.x, sin(angle1/2)*axis.y, sin(angle1/2)*axis.z };
-        Quat q2 = { cos(angle2/2), sin(angle2/2)*axis1.x, sin(angle2/2)*axis1.y, sin(angle2/2)*axis1.z };
-        
-        q1 = q1.Normalized();
-        q2 = q2.Normalized();
-        
-        double angle = (2*M_PI/23);
-        Mat4d R = RotateAxis(AxRot, angle);
-        for(int i = 0; i <60 ; i++)
+        for(int i = 0; i <10 ; i++)
         {
             
             // calcul de angle pour CETTE frame
-            double div = double(i)/60.0;
-            Quat q3(Slerp(q1,q2,div));
+            double angle =  i* (2*M_PI/23);
             fillpixels(pixels, width, height);
             for(int k=0; k<8; k++)
             {
-                 
-                Vec3d temp(cube[k].x,cube[k].y,cube[k].z);
-                temp = Rotate(q3,temp); 
-                Vec4d tempback (temp.x,temp.y,temp.z,1);
-                Vec4d rotated = R*tempback;
+                
+                Mat4d R = RotateAxis(AxRot, angle);
+                Vec4d rotated = R*cube[k];
                 cubeCamera[k] = V*rotated;
                  if(std::abs(rotated.z) < 0.0001)
                 {
@@ -125,10 +114,10 @@ int main(int argc, char** argv){
                 
                 }
                 std::cout << "rotated[k].z " << rotated.z << std::endl;
-                
-                //std::cout << "x2d :" << x2d << " " << "y2d :"<< y2d <<  std::endl;
                 double x2d = cubeCamera[k].x * f /(-cubeCamera[k].z) + width/2;
                 double y2d = cubeCamera[k].y * f /(-cubeCamera[k].z) + width/2;
+                std::cout << "x2d :" << x2d << " " << "y2d :"<< y2d <<  std::endl;
+               
                 Pos2D.push_back(Vec2d(x2d, y2d));
                 
             }
@@ -154,7 +143,7 @@ int main(int argc, char** argv){
 
             } 
              // Une seule écriture PPM par frame
-            std::string filename = "D:/Nkentseu/Applications/Sandbox/src/Semaine4/image/rotatedFrame" + std::to_string(i) + ".ppm";
+            std::string filename = "D:/Nkentseu/Applications/Sandbox/src/image/NKImage" + std::to_string(i) + ".ppm";
             std::ofstream Image(filename);
             Image << "P6\n" << width << " " << height << "\n255\n";
             for(int p = 0; p < width * height; p++){
@@ -174,3 +163,4 @@ int main(int argc, char** argv){
         delete[] pixels;
     return 0;
 }
+ 

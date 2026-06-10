@@ -1,6 +1,5 @@
-#pragma once
+#include "Vec4d.h"
 
-#include"Vec4d.h"
 using namespace NkMath;
 
     // Constructeurs
